@@ -25,12 +25,15 @@
       var id = $(this).attr('data-pk');
       var content = $('#response-content').val();
       var count = parseInt($('#responses-count-' + id).html());
-      
+
       $.ajax({
         url: '/response/add',
         method: 'POST',
         data: { postId: id, responseContent: content },
         success: function (response) {
+          if (count == 0)
+            $('#response-list').html("");
+            
           $('#response-list').prepend(response);
           $('#response-content').val("");
           $('#responses-count-'+id).html(count+1)
