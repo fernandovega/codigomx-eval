@@ -1,0 +1,12 @@
+<li class="collection-item avatar" id="response-{{ response.id }}">
+    <i class="material-icons circle">account_circle</i>
+    <span class="title">{{ response.userName }}</span>
+    <p>
+        {{ response.responseContent }}
+    </p>
+    {% if session.userName == response.userName %}
+        <a href="#" class="secondary-content delete-response" data-pk="{{ response.id }}" data-post="{{ response.postId }}">
+            <i class="material-icons">remove_circle</i>
+        </a>
+    {% endif %}
+</li>

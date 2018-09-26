@@ -1,0 +1,70 @@
+
+{% extends "layouts/layout.twig" %}
+
+{% block content %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                {% if session.userName %}
+                    <form class="col s12" action="/post/add" method="POST">
+                        <div class="input-field col s10">
+                            <textarea id="textarea2" name="postContent" class="materialize-textarea" data-length="120" required></textarea>
+                            <label for="textarea2">¿Que estas pensando?</label>
+                        </div>
+                        <div class="col s2">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Publicar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    <form class="col s12" action="/login" method="POST">
+                        <div class="input-field col s8">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="icon_prefix" type="text" name="userName" class="validate" required>
+                            <label for="icon_prefix">Escribe un nickname de una palabra en minusculas</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">
+                                Entrar   
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section">
+
+        <!-- Icon Section -->
+        <div class="row">
+            {% if posts | length > 0 %}
+                {% for post in posts %}
+                    <div class="col s12 m6">
+                        <div class="card light-blue darken-3">
+                            <div class="card-content white-text">
+                                <span class="card-title">{{ post.userName }}</span>
+                                <p>{{ post.postContent }}</p>
+                            </div>
+                            <div class="card-action">
+                                {% if session.userName == post.userName %}
+                                    <a href="/post/delete?id={{ post.id }}">Eliminar</a>
+                                {% endif %}
+                                <a href="#respuestas" class="responses-btn" data-pk="{{ post.id }}" data-username="{{ post.userName }}">Respuestas <span class="new badge" id="responses-count-{{ post.id }}"> {{ post.responsesCount }} </span></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+    <br><br>
+</div>
+
+{% endblock %}
